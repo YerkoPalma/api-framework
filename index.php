@@ -27,7 +27,7 @@
     if ($uriClass == "") {
         echo "not found";    
     }else{
-        $apiObj = new $uriClass();
+        $apiObj = new $uriClass($db);
         //$msg = new mensajes($db);
 
         echo $apiObj->processAPI();

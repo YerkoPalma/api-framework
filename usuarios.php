@@ -1,5 +1,6 @@
 <?php
 require_once "api.php";
+require_once "api_db.php";
 
 class usuarios extends api
 {
@@ -35,8 +36,8 @@ class usuarios extends api
         Muestra un mensaje
     */
     protected function read($id){
-        print_r($id);
-        return "read";
+        $adpidb = new database();
+        print_r($apidb->getModel("usuario"));
     }
     
     /*
