@@ -2,10 +2,10 @@
 require_once "api.php";
 require_once "api_db.php";
 
-class usuarios extends api
+class usuario extends api
 {
 
-    protected $db;
+    protected $db;    
 
     public function __construct($db){
         parent::__construct();
@@ -36,8 +36,8 @@ class usuarios extends api
         Muestra un mensaje
     */
     protected function read($id){
-        $adpidb = new database();
-        print_r($apidb->getModel("usuario"));
+        
+        print_r($this->db->getModel("usuario"));
     }
     
     /*

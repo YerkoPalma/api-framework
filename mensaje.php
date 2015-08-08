@@ -1,7 +1,7 @@
 <?php
 require_once "api.php";
 
-class mensajes extends api
+class mensaje extends api
 {
 
     protected $db;

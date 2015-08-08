@@ -10,7 +10,7 @@ class model
     }
 }
 
-class database
+class api_database
 {
     private $db;
 
@@ -19,9 +19,9 @@ class database
         try{
             $db = new PDO('pgsql:dbname=api_mensajes;host=127.0.0.1',
                 Config::user,
-                Config::pass);
-            print_r($db);
+                Config::pass);            
             $this->db = $db;
+            //print_r($db);
         } catch (PDOException $e) {
             echo  $e->getMessage(); 
         }
@@ -30,11 +30,14 @@ class database
     public function getModel($tableName){
         if(isset($this->db)){
             $query = "select schemaname, tablename, tableowner, tablespace, hasindexes, hasrules, hastriggers from pg_tables where schemaname='public' and tablename='".$tableName."';";
-            $row = $this->db->query($query);
+            $stmt = $this->db->query($query);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
             if(isset($row) && is_array($row) && count($row) > 0){
                 return new model($tableName);            
             }else{
-                return "nothing!";            
+                echo $tableName . " not found";
+                return "";            
             } 
         }
     }
