@@ -4,6 +4,8 @@ abstract class api
     protected $uri;
     
     protected $server;
+
+    protected $prefix;
     
     protected $method;
     
@@ -28,6 +30,9 @@ abstract class api
         
         $this->args = explode('/', ltrim($this->uri,'/'));
         
+        $this->prefix = array_shift($this->args);
+
+        //El name debe ser seteado por el nombre de clase
         $this->name = array_shift($this->args);
         
         if (array_key_exists(0, $this->args) && !is_numeric($this->args[0])) {
@@ -49,9 +54,9 @@ abstract class api
         }            
     }
     
-    public function processAPI() {
+    public function processAPI() {       
         
-        if (trim($this->uri,'/') == $this->name ) {
+        if (trim($this->uri,'/') == $this->prefix."/".$this->name ) {
             return $this->_response($this->{'index'}($this->args));
         }
         

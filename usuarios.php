@@ -1,7 +1,7 @@
 <?php
 require_once "api.php";
 
-class mensajes extends api
+class usuarios extends api
 {
 
     protected $db;
@@ -15,22 +15,20 @@ class mensajes extends api
         Muestra todos los mensajes
     */
     protected function index(){
-        //$query = "SELECT * FROM mensaje";
-        //$stmt = $this->db->query($query);
-
-        //while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            #echo $row['id'].", ".$row['api_id'].", ".$row['contacto_id'].", ".$row['texto'];
-        //}
-        #print_r($this->name);
-
-        return "Hello World";
+        
+        return "Hello World Users!!";
     }
     
     /*
         Crea un mensaje
     */
     protected function create(){
-        return "asdasdasdasd mensajes";
+        if ($this->method == "POST"){
+            return $_POST;        
+        }else{
+        return "method not allowed";        
+        }
+
     }
     
     /*
