@@ -16,8 +16,8 @@ class usuario extends api
         Muestra todos los mensajes
     */
     protected function index(){
-        
-        return "Hello World Users!!";
+        $model = $this->db->getModel("usuario");
+        return $model->select();;
     }
     
     /*
@@ -36,8 +36,21 @@ class usuario extends api
         Muestra un mensaje
     */
     protected function read($id){
-        
-        print_r($this->db->getModel("usuario"));
+        $model = $this->db->getModel("usuario"); 
+
+        //$model->select();
+        //echo "\n";
+
+        //$model->select("", "", Array("username"));
+        //echo "\n";
+
+        return $model->select("id", "= " . $id[0]);
+        //echo "\n";
+
+        //return $model->select("username", "= 'YerkoPalma'", Array("username", "mail"));
+        //
+
+        //return $model;
     }
     
     /*

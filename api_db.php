@@ -4,9 +4,47 @@ require_once "db.php";
 class model
 {
     public $name;
+    public $db;
 
-    public function __construct($name){
+    public function __construct($name, $db){
         $this->name = $name;
+        $this->db = $db;
+    }
+
+    public function select($name = "", $condition = "", $columns = Array()){
+        
+        $query = "";
+        //select * from $this->name
+        if ($name == "" && $condition == "" && is_array($columns) && count($columns) == 0){
+            $query = "SELECT * FROM " . $this->name;
+        }
+
+        //select $columns from $this->name
+        if ($name == "" && $condition == "" && is_array($columns) && count($columns) > 0){
+            $query = "SELECT ". implode(", ", $columns) . " FROM " . $this->name;
+        }
+
+        //select * from $this->name where $name $condition
+        if ($name != "" && $condition != "" && is_array($columns) && count($columns) == 0){
+            $query = "SELECT * FROM " . $this->name . " WHERE " . $name . " " . $condition;
+        }
+
+        //select $columns from $this->name where $name $condition 
+        if ($name != "" && $condition != "" && is_array($columns) && count($columns) > 0){
+            $query = "SELECT ". implode(", ", $columns) . " FROM " . $this->name . " WHERE " . $name . " " . $condition;
+        }
+        
+        $query = $query . ";";
+        $stmt = $this->db->query($query);
+        $result = Array();
+
+        //echo $query . "\n\n";
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            array_push($result, $row);
+            #echo $row['id'].", ".$row['api_id'].", ".$row['contacto_id'].", ".$row['texto'];
+        }
+        return $result;
     }
 }
 
@@ -34,7 +72,7 @@ class api_database
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if(isset($row) && is_array($row) && count($row) > 0){
-                return new model($tableName);            
+                return new model($tableName, $this->db);            
             }else{
                 echo $tableName . " not found";
                 return "";            
