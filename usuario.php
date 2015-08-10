@@ -24,11 +24,9 @@ class usuario extends api
         Crea un mensaje
     */
     protected function create(){
-        if ($this->method == "POST"){
-            return $_POST;        
-        }else{
-        return "method not allowed";        
-        }
+        $model = $this->db->getModel("usuario");
+
+        $model->insert(Array( "username" => "yerkooo", "mail" => "yerko.palma.serrano@gmail.com"));
 
     }
     

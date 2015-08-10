@@ -46,6 +46,30 @@ class model
         }
         return $result;
     }
+
+    function prepare_string($obj){
+        return is_numeric($obj) ? $obj : "'" . $obj . "'";
+    }
+
+    public function insert($arr = Array()){
+
+        //es asociativo
+        $is_asociative = array_keys($arr) !== range(0, count($arr) - 1);
+
+        if (!$is_asociative) {
+            $query = "INSERT INTO " . $this->name . " VALUES (" . implode(", ", array_map(function($s) {return $this->prepare_string($s);}, $arr)) . ")" ;
+        }else{
+            $query = "INSERT INTO " . $this->name . " ( " . implode(", ", array_keys($arr)) . ") VALUES (". implode(", ", array_map(function($s) {return $this->prepare_string($s);}, $arr)) . ")";	
+        }
+        
+        $query = $query . ";";
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->execute();
+        echo $query . "\n\n";
+
+    }
 }
 
 class api_database
