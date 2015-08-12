@@ -8,6 +8,7 @@ class usuario extends api
     protected $db;    
 
     public function __construct($db){
+
         parent::__construct();
         $this->db = $db;
     }
@@ -16,6 +17,7 @@ class usuario extends api
         Muestra todos los mensajes
     */
     protected function index(){
+
         $model = $this->db->getModel("usuario");
         return $model->select();;
     }
@@ -24,33 +26,46 @@ class usuario extends api
         Crea un mensaje
     */
     protected function create(){
-        $model = $this->db->getModel("usuario");
 
-        $model->insert(Array( "username" => "yerkooo", "mail" => "yerko.palma.serrano@gmail.com"));
+        //verificar que el metodo sea post 
+        if ( $this->method == "POST" ) {
+            $model = $this->db->getModel("usuario");
 
+            if ( isset($_POST) && isset($_POST["username"]) && isset($_POST["mail"]) ) {
+                $id = $model->insert(Array( "username" => $_POST["username"], "mail" => $_POST["mail"]));
+                //return $_POST;
+                return Array("id" => $id);        
+            }
+        }
+        //error
+        return Array("error" => "method not allowed");
+        
     }
     
     /*
         Muestra un mensaje
     */
     protected function read($id){
-        $model = $this->db->getModel("usuario"); 
 
-        //$model->select();
-        //echo "\n";
+        $model = $this->db->getModel("usuario");         
 
-        //$model->select("", "", Array("username"));
-        //echo "\n";
-
-        return $model->select("id", "= " . $id[0]);
-        //echo "\n";
-
-        //return $model->select("username", "= 'YerkoPalma'", Array("username", "mail"));
-        //
-
-        //return $model;
+        return $model->select("id", "= " . $id[0]);        
     }
     
+    /*
+        Muestra un mensaje
+    */
+    protected function update($id){
+
+        if ($this->method == "PUT"){
+            $model = $this->db->getModel("usuario"); 
+            return $model->update($id[0], Array("username" => "Toribio"));
+        }                
+
+        return Array("error" => "method not allowed");      
+    }
+    
+
     /*
         Borra un mensaje
     */

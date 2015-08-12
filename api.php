@@ -57,16 +57,19 @@ abstract class api
     public function processAPI() {       
         
         //index
-        if (trim($this->uri,'/') == $this->prefix."/".$this->name ) {
+        if (trim($this->uri,'/') == $this->prefix."/".$this->name && $this->method == "GET") {
             return $this->_response($this->{'index'}($this->args));
         }
         
         //read
-        if ($this->endpoint == "" && is_array($this->args) && count($this->args) == 1 && is_numeric($this->args[0]) && method_exists($this, 'read')){            
+        if ($this->endpoint == "" && is_array($this->args) && count($this->args) == 1 && is_numeric($this->args[0]) && method_exists($this, 'read') && $this->method == "GET"){            
             return $this->_response($this->{'read'}($this->args));
         }
 
         //create
+        if ($this->endpoint == "" && is_array($this->args) && count($this->args) == 0 && method_exists($this, 'create') && $this->method == "POST"){            
+            return $this->_response($this->{'create'}($this->args));
+        }
 
         //update
 

@@ -67,14 +67,43 @@ class model
         $stmt = $this->db->prepare($query);
 
         $stmt->execute();
-        echo $query . "\n\n";
 
+        return $this->db->lastInsertId("usuario_id_seq");
+
+    }
+
+    public function update($id, $data = Array()){
+
+        //$this->method == "PUT" &&
+        if( is_array($data) && count($data) > 0 ){
+            $query = "UPDATE " . $this->name . " SET ";
+            $i = 0;           
+
+            foreach ( $data as $column => $value ){
+                
+                $i++;
+                $tmp = (is_numeric($value) ? $value : "'" . $value . "'");
+                $query .= $column . " = " . $tmp;
+                $query .= ($i == count($data) ? "" : ", ");
+            }            
+
+            //echo "query " . $query . "\n\n";
+
+            $query .= " WHERE id = " . $id . ";";
+
+            $stmt = $this->db->prepare($query);
+
+            $stmt->execute();
+
+            return $this->select("id", " = " . $id);
+            //echo $query;
+        }
     }
 }
 
 class api_database
 {
-    private $db;
+    public $db;
 
     public function __construct(){
 
