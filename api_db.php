@@ -68,13 +68,16 @@ class model
 
         $stmt->execute();
 
-        return $this->db->lastInsertId("usuario_id_seq");
+        return $this->db->lastInsertId($this->name . "_id_seq");
 
     }
 
-    public function update($id, $data = Array()){
+    public function update($id){
 
         //$this->method == "PUT" &&
+        $data = Array();
+        parse_str(file_get_contents("php://input"),$data);
+        //return $data;
         if( is_array($data) && count($data) > 0 ){
             $query = "UPDATE " . $this->name . " SET ";
             $i = 0;           
