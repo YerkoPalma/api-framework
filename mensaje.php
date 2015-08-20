@@ -1,5 +1,5 @@
 <?php
-require_once "api.php";
+require_once "lib/api.php";
 
 class mensaje extends api
 {
@@ -10,7 +10,7 @@ class mensaje extends api
         parent::__construct();
         $this->db = $db;
     }
-    
+
     /*
         Muestra todos los mensajes
     */
@@ -25,14 +25,14 @@ class mensaje extends api
 
         return "Hello World";
     }
-    
+
     /*
         Crea un mensaje
     */
     protected function create(){
         return "asdasdasdasd mensajes";
     }
-    
+
     /*
         Muestra un mensaje
     */
@@ -40,7 +40,7 @@ class mensaje extends api
         print_r($id);
         return "read";
     }
-    
+
     /*
         Borra un mensaje
     */
